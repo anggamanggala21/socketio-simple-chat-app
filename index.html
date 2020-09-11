@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0,shrink-to-fit=no">
+		<title>Node Chat App by Angga Manggala</title>		
+	</head>
+	<style type="text/css">
+		body {
+			padding: 0px;
+			margin: 0px;
+		}
+		.container-body {
+			height: 83vh;
+			margin: 30px;
+		}
+		.chat-text {
+			background: white;
+			padding: 10px; 
+			color: black;
+		}
+	</style>
+	<body>
+		
+		<div class="container-body">			
+
+			<h3 style="background: blue; margin-top: 0px; margin-bottom: 0px; padding: 15px; color: white; height: 30px;">CHAT APP</h3>
+			<div id="chat-room" style="padding: 0px 20px; height: calc(100% - 100px); overflow-y: scroll; border: 1px solid black; background: #e9e9e9;">
+				
+			</div>
+	
+			<form action="javascript:send()" style="display: flex; align-items: flex-between; margin-top: 10px">
+				<input id="chat-val" style="width: calc(100% - 100px); margin-right: 10px; padding: 10px;"/>
+				<button type="submit" style="width: 100px; border: none; background: blue; color: white;">SEND</button>
+			</form>
+			
+		</div>		
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			var socket = io();
+			function send() {
+			  	let val = document.getElementById("chat-val").value;		  	
+			  	document.getElementById("chat-val").value = "";
+			  	socket.emit('chat', val);
+			  	return false;
+			}
+			socket.on('chat', (msg) => {		  	
+			  	let chatRoom = document.getElementById("chat-room");
+			  	let createP = document.createElement("P")
+			  	createP.innerText = msg
+			  	createP.className = "chat-text"
+			  	chatRoom.appendChild(createP);
+			 })
+		</script>
+	</body>
+</html>
