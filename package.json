@@ -1,0 +1,29 @@
+{
+  "name": "socketio-simple-chat-app",
+  "version": "1.0.0",
+  "description": "Chat App",
+  "main": "server.js",
+  "dependencies": {
+    "httpdispatcher": "^2.1.2",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anggamanggala21/socketio-simple-chat-app.git"
+  },
+  "keywords": [
+    "Chat",
+    "App"
+  ],
+  "author": "Angga Manggala",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anggamanggala21/socketio-simple-chat-app/issues"
+  },
+  "homepage": "https://github.com/anggamanggala21/socketio-simple-chat-app#readme"
+}
