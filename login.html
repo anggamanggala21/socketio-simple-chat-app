@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    
+    <div style="display: flex; justify-content: center; align-items: center; height: 90vh; width: 100%; flex-direction: column;">
+        <form action="javascript:login()" style="width: 70%; display: block;">
+            <input id="user" type="text" placeholder="Enter your name" style="padding: 10px; margin-bottom: 10px; width: 90%;">
+            <input id="pass" type="password" placeholder="Enter password" style="padding: 10px; margin-bottom: 20px; width: 90%;">
+            <button type="submit" style="border: 0px; padding: 10px 50px; background: blue; color: white; display: inline-block; border-radius: 5px;">Login</button>
+        </form>
+    </div>
+
+    <script>
+        function login() {
+            if (document.getElementById("pass").value != 'anggalovebintang') {
+                alert("Wrong password !")
+            } else {
+                let userName = document.getElementById("user").value;
+                localStorage.setItem('user', userName);
+                setTimeout(() => {
+                    window.location = '/'
+                }, 50)
+            }            
+        }
+    </script>
+
+</body>
+</html>

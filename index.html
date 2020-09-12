@@ -22,34 +22,74 @@
 		
 		<div class="container-body">			
 
-			<h3 style="background: blue; margin-top: 0px; margin-bottom: 0px; padding: 15px; color: white; height: 30px;">CHAT APP</h3>
-			<div id="chat-room" style="padding: 0px 20px; height: calc(100% - 100px); overflow-y: scroll; border: 1px solid black; background: #e9e9e9;">
+			<div style="background: #3742fa; margin-top: 0px; margin-bottom: 0px; padding: 15px 15px; color: white; display: flex; justify-content: space-between;">
+				<p style="margin: 0px; font-size: 20px; font-weight: bold;">CHAT APP</p>
+				<button onclick="logout()" style="background: #ff6348; border: none; padding: 0px 20px; color: white; border-radius: 50px;">Logout</button>
+			</div>			
+			<div id="chat-room" style="padding: 0px 20px; height: calc(100% - 100px); overflow-y: scroll; border: 1px solid #3742fa; background: #f7f7f7;">
 				
 			</div>
 	
 			<form action="javascript:send()" style="display: flex; align-items: flex-between; margin-top: 10px">
-				<input id="chat-val" style="width: calc(100% - 100px); margin-right: 10px; padding: 10px;"/>
-				<button type="submit" style="width: 100px; border: none; background: blue; color: white;">SEND</button>
+				<input placeholder="Input message here ..." id="chat-val" style="width: calc(100% - 100px); margin-right: 10px; padding: 10px; border: 1px solid #3742fa;"/>
+				<button type="submit" style="width: 100px; border: none; background: #3742fa; color: white;">SEND</button>
 			</form>
 			
 		</div>		
 
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
+			if (!localStorage.getItem('user')) window.location = '/login'						
+
 			var socket = io();
 			function send() {
 			  	let val = document.getElementById("chat-val").value;		  	
+				socket.emit('chat', { user: localStorage.getItem('user'), msg: val });
 			  	document.getElementById("chat-val").value = "";
-			  	socket.emit('chat', val);
 			  	return false;
 			}
-			socket.on('chat', (msg) => {		  	
-			  	let chatRoom = document.getElementById("chat-room");
-			  	let createP = document.createElement("P")
-			  	createP.innerText = msg
-			  	createP.className = "chat-text"
-			  	chatRoom.appendChild(createP);
-			 })
+			socket.on('chat', (msg) => {
+				if (localStorage.getItem('chat')) {
+					let messages = localStorage.getItem('chat')
+					messages = JSON.parse(messages)					
+					messages.push(msg)
+					localStorage.setItem('chat', JSON.stringify(messages))
+				} else {
+					localStorage.setItem('chat', JSON.stringify([msg]))
+				}
+			})
+
+			socket.on('datas', (datas) => {				
+				load(datas)
+			})
+
+			function load(datas) {
+				if (!datas || datas.length < 1) return
+				let chatRoom = document.getElementById("chat-room");
+				chatRoom.innerHTML = '';
+				datas.forEach(el => {
+					let chatRoom = document.getElementById("chat-room");					
+
+					let createText = document.createElement("DIV")
+					let localUser = localStorage.getItem('user')
+					createText.innerHTML = `
+						<div style="display: flex; justify-content: ${ el.user == localUser ? `flex-end` : `flex-start` }; margin: 10px 0px	">
+							<div style="background: #ffffff; display: inline-block; padding: 5px 10px; border-radius: 5px; box-shadow: 5px 5px 10px -1px #d7d7d7">
+								<font style="font-size: 11px; color: #3742fa;">${ el.user }</font><br>
+								<p style="margin: 0px; margin-top: 5px;">${ el.msg }</p>
+							</div>
+						</div>
+					`;
+					chatRoom.appendChild(createText);
+
+				});
+			}
+
+			function logout() {				
+				localStorage.removeItem('user')
+				window.location = '/login'
+			}
+
 		</script>
 	</body>
 </html>
