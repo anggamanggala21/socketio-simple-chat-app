@@ -74,6 +74,4 @@ io.on('connection', client => {
 	});
 	  
 });
-server.listen(port, host, () => {
-	console.log("Server is running on http://" + host + ":" + port);
-})
+server.listen(8080)
