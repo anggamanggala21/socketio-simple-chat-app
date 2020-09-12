@@ -3,7 +3,7 @@ const fs = require("fs").promises;
 const HttpDispatcher = require('httpdispatcher');
 var dispatcher = new HttpDispatcher()
 
-const host = "192.168.43.113";
+const host = "chat.anggamanggala.com";
 const port = 3000;
 
 const requestListener = (req, res) => {	
