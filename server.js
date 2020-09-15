@@ -3,7 +3,6 @@ const fs = require("fs").promises;
 const HttpDispatcher = require('httpdispatcher');
 var dispatcher = new HttpDispatcher()
 
-const host = "chat.anggamanggala.com";
 const port = 3000;
 
 const requestListener = (req, res) => {	
@@ -74,4 +73,4 @@ io.on('connection', client => {
 	});
 	  
 });
-server.listen(process.env.PORT || 5000)
+server.listen(process.env.PORT || port)
